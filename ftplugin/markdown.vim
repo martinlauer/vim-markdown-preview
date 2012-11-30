@@ -35,3 +35,17 @@ endfunction
 
 command! -range=% MarkdownPreview call s:ShowMarkdownPreview(<line1>, <line2>)
 command! -range=% MdP call s:ShowMarkdownPreview(<line1>, <line2>)
+
+
+function! s:ShowMultiMarkdownPdf(line1, line2)
+	let text = getline(a:line1, a:line2)
+	let ofilename = "mmd2pdf.mmd"
+	let nfilename = "mmd2pdf.pdf"
+	if has('mac') || has('macunix')
+		call writefile(text, "/tmp/" . ofilename)
+		call system("mmd2pdf /tmp/" . ofilename . " > /tmp/" . nfilename)
+		call system("open /tmp/" . nfilename)
+  endif
+endfunction
+
+command! -range=% Mmd2Pdf call s:ShowMultiMarkdownPdf(<line1>, <line2>)
